@@ -1,12 +1,42 @@
+import "reflect-metadata";
+import App from "@/App.vue";
+import ProjectionUtils from "@/common/utils/ProjectionUtils";
 import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import VueMoment from "vue-moment";
+import router from "@/common/pugins/router";
+import store from "@/common/pugins/store";
+import vuetify from "@/common/pugins/vuetify";
+import {AppContainerLoad} from "@/ioc/AppContainer";
 
-Vue.config.productionTip = false;
+class AppBootstrap {
+    constructor() {
+        this.setupUtils();
+        this.setupIoC();
+        this.setupVuePlugins();
+        this.setupVue();
+    }
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount("#app");
+    private setupUtils() {
+        ProjectionUtils.RegisterProjections();
+    }
+
+    private setupIoC() {
+        AppContainerLoad;
+    }
+
+    private setupVuePlugins(): void {
+        Vue.use(VueMoment);
+    }
+
+    private setupVue(): void {
+        Vue.config.productionTip = false;
+        new Vue({
+            router,
+            store,
+            vuetify,
+            render: x => x(App)
+        }).$mount("#app");
+    }
+}
+
+new AppBootstrap();
