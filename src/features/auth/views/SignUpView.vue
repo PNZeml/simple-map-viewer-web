@@ -55,18 +55,22 @@
 </template>
 
 <script lang="ts">
-    import AuthStoreModule from "@/features/auth/AuthStoreModule";
     import {Component, Vue} from "vue-property-decorator";
+    import {inject} from "inversify-props";
+    import {AuthViewModel} from "@/features/auth/viewmodel/AuthViewModel";
 
     @Component({name: "signup"})
     export default class SignUpView extends Vue {
+        @inject("AuthViewModel")
+        private viewModel!: AuthViewModel;
+
         private name = "";
         private password = "";
         private passwordConformation = "";
         private email = "";
 
         private async OnSignUpClicked(): Promise<void> {
-            await AuthStoreModule.RequestSignUp({
+            await this.viewModel.requestSignUp({
                 name: this.name,
                 password: this.password,
                 email: this.email,

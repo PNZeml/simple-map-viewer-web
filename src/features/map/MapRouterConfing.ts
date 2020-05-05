@@ -5,6 +5,10 @@ const MapRouteConfig: Array<RouteConfig> = [
     {
         path: "/map",
         component: MapView,
+    },
+    {
+        path: "/map/:geoFileId",
+        component: MapView,
     }
 ];
 

@@ -2,18 +2,21 @@
   <v-app>
     <!-- Navigation Menu -->
     <v-navigation-drawer v-model="isMenuToggled" app clipped>
-      <v-list-item v-if="token">
+      <v-list-item v-if="viewModel.token">
         <v-list-item-content>
           <v-list-item-title class="title">
-            {{ username }}
+            {{ viewModel.user.name }}
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-divider/>
 
-      <v-list dense nav v-model="navItems"
-              v-for="(navItem, i) in navItems"
-              :key="i">
+      <v-list
+          dense nav
+          v-model="navItems"
+          v-for="(navItem, i) in navItems"
+          :key="i"
+      >
         <v-list-item
             v-if="navItem.isShown"
             link :to="navItem.route"
@@ -29,8 +32,8 @@
 
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn block v-if="!token" to="/signin">Sign In</v-btn>
-          <v-btn block v-if="token" v-on:click="OnSignOutClicked">Sign Out</v-btn>
+          <v-btn block v-if="viewModel.token" v-on:click="onSignOutClicked">Sign Out</v-btn>
+          <v-btn block v-else to="/signin">Sign In</v-btn>
         </div>
       </template>
     </v-navigation-drawer>
@@ -50,11 +53,15 @@
 
 
 <script lang="ts">
-    import AuthStoreModule from "@/features/auth/AuthStoreModule";
     import {Component, Vue} from "vue-property-decorator";
+    import {inject} from "inversify-props";
+    import {AuthViewModel} from "@/features/auth/viewmodel/AuthViewModel";
 
     @Component
     export default class MainView extends Vue {
+        @inject("AuthViewModel")
+        private viewModel!: AuthViewModel;
+
         // Layout fields
         private isMenuToggled = false;
         private navItems = [
@@ -68,40 +75,30 @@
                 route: "/geofiles",
                 icon: "mdi-folder",
                 title: "My GeoFiles",
-                isShown: this.token
+                isShown: this.viewModel.token
             },
             {
                 route: "/shared-with-me",
                 icon: "mdi-folder-account",
                 title: "Shared With Me",
-                isShown: this.token
+                isShown: this.viewModel.token
             },
             {
                 route: "/bin",
                 icon: "mdi-delete",
                 title: "Bin",
-                isShown: this.token
+                isShown: this.viewModel.token
             },
             {
                 route: "/settings",
                 icon: "mdi-settings",
                 title: "Settings",
-                isShown: this.token
+                isShown: this.viewModel.token
             },
         ];
 
-        // Getters
-        private get username() {
-            return AuthStoreModule.user?.name;
-        }
-
-        private get token() {
-            return AuthStoreModule.token;
-        }
-
-        // Component event handlers
-        private OnSignOutClicked(): void {
-            AuthStoreModule.RequestSignOut();
+        private onSignOutClicked(): void {
+            this.viewModel.signOut();
             this.$router.go(0);
         }
     }

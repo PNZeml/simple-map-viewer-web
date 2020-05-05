@@ -28,7 +28,7 @@
         async mounted() {
             this.SetupMapCanvas();
 
-            const geoFileId = Number.parseInt(this.$route.params.id);
+            const geoFileId = Number.parseInt(this.$route.params.geoFileId);
             if (geoFileId) {
                 this.geoFile = await this.mapService.getGeoFile(geoFileId);
                 this.Draw()

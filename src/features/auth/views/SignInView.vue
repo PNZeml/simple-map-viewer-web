@@ -52,15 +52,17 @@
 </template>
 
 <script lang="ts">
-    import auth from "@/features/auth/AuthStoreModule";
     import {Component, Vue} from "vue-property-decorator";
     import {inject} from "inversify-props";
-    import {AuthWebApiService} from "@/features/auth/services/AuthWebApiService";
+    import {AuthViewModel} from "@/features/auth/viewmodel/AuthViewModel";
 
     export type VForm = Vue & { validate: () => boolean }
 
     @Component({name: "signin"})
     export default class SignInView extends Vue {
+        @inject("AuthViewModel")
+        private viewModel!: AuthViewModel;
+
         // Component behaviour fields
         private isPasswordShown = false;
         private rules = {
@@ -76,7 +78,7 @@
             if (!this.IsFromValid()) return;
 
             try {
-                await auth.RequestSignIn({
+                await this.viewModel.requestSignIn({
                     login: this.login,
                     password: this.password
                 });

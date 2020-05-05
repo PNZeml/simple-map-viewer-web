@@ -1,3 +1,3 @@
-interface Row {
+export interface Row {
     select(isSelected: boolean): void;
 }

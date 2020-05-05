@@ -1,14 +1,22 @@
 import AuthRouteConfig from "@/features/auth/AuthRouteConfig";
-import MainRouterConfig from "@/presentation/MainRouterConfig";
 import Vue from "vue";
 import VueRouter, {RouteConfig} from "vue-router";
+import MapRouteConfig from "@/features/map/MapRouterConfing";
+import GeoFilesRouterConfig from "@/features/geofiles/GeoFilesRouterConfig";
+import MainPageComponent from "@/presentation/views/MainView.vue";
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
-    ...MainRouterConfig,
+    {
+        path: "/",
+        component: MainPageComponent,
+        children: [
+            ...GeoFilesRouterConfig,
+            ...MapRouteConfig,
+        ]
+    },
     ...AuthRouteConfig,
-    //...MapRouteConfig,
 ];
 
 const router = new VueRouter({

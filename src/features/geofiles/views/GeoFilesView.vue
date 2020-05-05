@@ -14,29 +14,38 @@
       </v-btn>
       <v-btn
           icon
-          @click="isGeoFileDetailShown = !isGeoFileDetailShown"
+          @click="isDetailShown = !isDetailShown"
       >
         <v-icon>mdi-information</v-icon>
       </v-btn>
     </v-toolbar>
     <v-row>
-      <v-col>
+      <v-col
+          :lg="isDetailShown ? 8 : 0"
+          sm="0"
+          xs="0"
+      >
         <v-data-table
             class="overflow-y-auto fill-height"
             height="84.5vh"
             hide-default-footer
             :headers="geoFileDataTableHeaders"
-            :items="geoFiles"
+            :items="viewModel.geoFiles"
             :items-per-page="1000"
             @click:row="OnGeoFileClicked"
             item-key="id"
         >
           <template v-slot:item.modifiedDate="{ item }">
-            <span v-if="item">{{ item.modifiedDate | moment("YYYY.MM.DD HH:mm") }}</span>
+            <span v-if="item">
+              {{ item.modifiedDate | moment("YYYY.MM.DD HH:mm") }}
+            </span>
           </template>
         </v-data-table>
       </v-col>
-      <v-col class="sidebar" v-if="isGeoFileDetailShown">
+      <v-col
+          class="sidebar"
+          v-if="isDetailShown"
+      >
         <geo-file-details/>
       </v-col>
     </v-row>
@@ -44,31 +53,34 @@
 </template>
 
 <script lang="ts">
-    import GeoFilesStoreModule from "@/features/geofiles/GeoFilesStoreModule";
-    import GeoFileDetails
-        from "@/features/geofiles/views/components/GeoFileDetailsComponent.vue";
+    import GeoFileDetails from "@/features/geofiles/views/components/GeoFileDetailsComponent.vue";
     import {Component, Vue} from "vue-property-decorator";
+    import {Observer} from "mobx-vue";
+    import {inject} from "inversify-props";
+    import {GeoFilesViewModel} from "@/features/geofiles/viewmodel/GeoFilesViewModel";
+    import {Row} from "@/@types/vuetify";
 
+    @Observer
     @Component({
         components: {GeoFileDetails}
     })
     export default class GeoFilesView extends Vue {
+        @inject("GeoFilesViewModel")
+        private viewModel!: GeoFilesViewModel;
+
         // Layout fields
-        private isGeoFileDetailShown = false;
+        private isDetailShown = false;
         private geoFileDataTableHeaders = [
             {text: "Name", value: "name", align: "start", width: "70%"},
             {text: "Owner"},
             {text: "Last modified", value: "modifiedDate"},
             {text: "File size", value: "size"},
         ];
-
-        private geoFiles: Array<GeoFile> = [];
         private selectedRow: Row | null = null;
 
         // Lifecycle methods
         async mounted() {
-            await GeoFilesStoreModule.RetrieveGeoFiles();
-            this.geoFiles = GeoFilesStoreModule.geoFiles;
+            await this.viewModel.fetchGeoFiles();
         }
 
         // Component event handlers
@@ -77,23 +89,18 @@
             this.selectedRow = selectedRow;
             this.selectedRow.select(true);
 
-            GeoFilesStoreModule.setSelectedGeoFile(geoFile);
+            this.viewModel.selectGeoFile(geoFile);
         }
 
         private OnShowGeoFileClicked() {
-            this.$router.push(`/map/${GeoFilesStoreModule.selectedGeoFile?.id!}`)
+            this.$router.push(`/map/${this.viewModel.geoFile?.id!}`)
         }
     }
 </script>
 
 
 <style lang="scss">
-  .sidebar {
-    -ms-flex: 0 0 300px;
-    flex: 0 0 300px;
-  }
-
-  @media (max-width: 690px) {
+  @media (max-width: 1000px) {
     .sidebar {
       display: none;
     }
