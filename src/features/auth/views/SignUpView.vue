@@ -57,7 +57,7 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
     import {inject} from "inversify-props";
-    import {AuthViewModel} from "@/features/auth/viewmodel/AuthViewModel";
+    import {AuthViewModel} from "@/features/auth/viewmodel/auth/AuthViewModel";
 
     @Component({name: "signup"})
     export default class SignUpView extends Vue {

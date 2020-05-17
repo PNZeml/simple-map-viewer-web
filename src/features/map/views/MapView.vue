@@ -7,7 +7,7 @@
 
 <script lang="ts">
     import {ProjectionString} from "@/common/utils/ProjectionUtils";
-    import signalRService from "@/domain/services/signalr/SignalRService";
+    import signalRService from "@/data/signalr/SignalRService";
     import MapWebApiServiceImpl from "@/features/map/services/MapWebApiServiceImpl";
     import {FeatureCollection, GeoJSON, Position} from "geojson";
     import {Viewport} from "pixi-viewport";
@@ -31,7 +31,7 @@
             const geoFileId = Number.parseInt(this.$route.params.geoFileId);
             if (geoFileId) {
                 this.geoFile = await this.mapService.getGeoFile(geoFileId);
-                this.Draw()
+                this.Draw();
             }
 
             await this.StartSignalrConnection();
@@ -61,7 +61,6 @@
             this.viewport.drag().pinch().wheel();
             this.application.stage.addChild(this.viewport);
             window.addEventListener("resize", this.HandleMapResize)
-
             mapCanvas.onmousedown = this.OnMapClicked;
         }
 
@@ -89,7 +88,9 @@
             const vertices = coordinates[0]
                 .map(x => proj4(ProjectionString.EPGS4326.name, ProjectionString.GOOGLE.name, x))
                 .flat(1);
-            const polygon = new PIXI.Graphics().lineStyle(500, 0x000000).drawPolygon(vertices);
+            const polygon = new PIXI.Graphics()
+                .lineStyle( 500, 0x000000)
+                .drawPolygon(vertices);
             this.viewport?.addChild(polygon);
 
             this.viewport!.x = vertices[0] * -1;

@@ -2,8 +2,8 @@ import AuthRouteConfig from "@/features/auth/AuthRouteConfig";
 import Vue from "vue";
 import VueRouter, {RouteConfig} from "vue-router";
 import MapRouteConfig from "@/features/map/MapRouterConfing";
-import GeoFilesRouterConfig from "@/features/geofiles/GeoFilesRouterConfig";
-import MainPageComponent from "@/presentation/views/MainView.vue";
+import GeoFileRouterConfig from "@/features/geofile/GeoFileRouterConfig";
+import MainPageComponent from "@/presentation/views/main/MainView.vue";
 
 Vue.use(VueRouter);
 
@@ -12,7 +12,7 @@ const routes: Array<RouteConfig> = [
         path: "/",
         component: MainPageComponent,
         children: [
-            ...GeoFilesRouterConfig,
+            ...GeoFileRouterConfig,
             ...MapRouteConfig,
         ]
     },

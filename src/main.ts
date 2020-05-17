@@ -6,7 +6,7 @@ import VueMoment from "vue-moment";
 import router from "@/common/pugins/router";
 import store from "@/common/pugins/store";
 import vuetify from "@/common/pugins/vuetify";
-import {AppContainerLoad} from "@/ioc/AppContainer";
+import {AppModule} from "@/ioc/AppModule";
 
 class AppBootstrap {
     constructor() {
@@ -21,7 +21,7 @@ class AppBootstrap {
     }
 
     private setupIoC() {
-        AppContainerLoad;
+        AppModule;
     }
 
     private setupVuePlugins(): void {

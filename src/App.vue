@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app">
+  <v-app id="app" class="overflow-y-hidden">
     <transition name="fade" mode="out-in">
       <router-view/>
     </transition>
@@ -7,6 +7,10 @@
 </template>
 
 <style lang="scss">
+  html {
+    overflow-y: auto !important;
+  }
+
   #app {
     font-family: 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;

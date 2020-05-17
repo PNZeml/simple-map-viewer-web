@@ -2,16 +2,16 @@
 node_modules
 /dist
 
-# local env geofiles
+# local env geofile
 .env.development.local
 .env.*.local
 
-# Log geofiles
+# Log geofile
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Editor directories and geofiles
+# Editor directories and geofile
 .idea
 .vscode
 *.suo

@@ -1,4 +1,4 @@
-import WebApiService from "@/domain/services/webapi/WebApiService";
+import WebApiService from "@/data/webapi/WebApiService";
 import {GeoJSON} from "geojson";
 
 export default class MapWebApiServiceImpl extends WebApiService {

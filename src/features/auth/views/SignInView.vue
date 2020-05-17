@@ -54,7 +54,7 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
     import {inject} from "inversify-props";
-    import {AuthViewModel} from "@/features/auth/viewmodel/AuthViewModel";
+    import {AuthViewModel} from "@/features/auth/viewmodel/auth/AuthViewModel";
 
     export type VForm = Vue & { validate: () => boolean }
 

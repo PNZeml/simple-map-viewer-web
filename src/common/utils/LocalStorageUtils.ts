@@ -1,5 +1,5 @@
 export default class LocalStorageUtils {
-    public static getUser(): User | null {
+    public static GetUser(): User | null {
         let user: User | null = null;
         try {
             const userJson = localStorage.getItem("user");
