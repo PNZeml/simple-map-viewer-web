@@ -10,7 +10,7 @@ const preset = {
         dark: false,
         themes: {
             light: {
-                primary: colors.indigo.base
+                primary: colors.green.base
             }
         },
     },

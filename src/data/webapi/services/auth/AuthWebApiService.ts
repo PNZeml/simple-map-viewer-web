@@ -1,5 +1,5 @@
 export interface AuthWebApiService {
-    signIn(signInDto: SignInDto): Promise<User>
+    signIn(signInDto: SignInRequestDto): Promise<User>
 
-    signUp(signUpDto: SignUpDto): Promise<void>
+    signUp(signUpDto: SignUpRequestDto): Promise<void>
 }

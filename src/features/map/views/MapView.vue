@@ -25,6 +25,7 @@
 
         private mapService = new MapWebApiServiceImpl();
 
+        // lifetime methods
         async mounted() {
             this.SetupMapCanvas();
 
@@ -34,7 +35,7 @@
                 this.Draw();
             }
 
-            await this.StartSignalrConnection();
+            //await this.StartSignalrConnection();
         }
 
         beforeDestroy() {

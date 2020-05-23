@@ -4,7 +4,9 @@ import LocalStorageUtils from "@/common/utils/LocalStorageUtils";
 
 function getTokenFromLocalStorage(): string {
     const token = LocalStorageUtils.GetUser()?.accessToken ?? "";
-    return token ? `Token ${token}` : token;
+    const foo =  token ? `Token ${token}` : token;
+    console.log(foo);
+    return foo;
 }
 
 export const webApiConfig: AxiosRequestConfig = {

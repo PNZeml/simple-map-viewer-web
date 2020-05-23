@@ -1,12 +1,12 @@
 import {container} from "inversify-props";
 import GeoFileViewModel from "@/features/geofile/viewmodel/geofile/GeoFileViewModel";
-import GeoFilesStore from "@/features/geofile/stores/GeoFilesStore";
+import GeoFilesStore from "@/domain/stores/geofile/GeoFilesStore";
 import GeoFileDetailsViewModel
     from "@/features/geofile/viewmodel/geofile-details/GeoFileDetailsViewModel";
 import GeoFilesUploadDialogViewModel
     from "@/features/geofile/viewmodel/geofile-upload/GeoFilesUploadDialogViewModel";
-import GeoFileShareDialogViewModel
-    from "@/features/geofile/viewmodel/geofile-share/GeoFileShareDialogViewModel";
+import GeoFileShareViewModel
+    from "@/features/geofile/viewmodel/geofile-share/GeoFileShareViewModel";
 
 function load(): void {
     // Stores
@@ -23,9 +23,9 @@ function load(): void {
         GeoFileDetailsViewModel,
         "GeoFileDetailsViewModel"
     );
-    container.addSingleton<GeoFileShareDialogViewModel>(
-        GeoFileShareDialogViewModel,
-        "GeoFileShareDialogViewModel"
+    container.addSingleton<GeoFileShareViewModel>(
+        GeoFileShareViewModel,
+        "GeoFileShareViewModel"
     );
     container.addSingleton<GeoFilesUploadDialogViewModel>(
         GeoFilesUploadDialogViewModel,

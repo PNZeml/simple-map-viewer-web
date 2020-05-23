@@ -1,4 +1,4 @@
-interface SignInDto {
+interface SignInRequestDto {
     login: string;
     password: string;
 }

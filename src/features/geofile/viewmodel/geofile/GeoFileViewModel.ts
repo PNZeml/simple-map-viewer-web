@@ -1,7 +1,8 @@
 import {action, computed} from "mobx";
 import {inject} from "inversify-props";
-import GeoFilesStore from "@/features/geofile/stores/GeoFilesStore";
+import GeoFilesStore from "@/domain/stores/geofile/GeoFilesStore";
 import {LoadingState} from "@/domain/enums/LoadingState";
+import {GeoFile} from "@/domain/models/GeoFile";
 
 export default class GeoFileViewModel {
     @inject("GeoFilesStore")

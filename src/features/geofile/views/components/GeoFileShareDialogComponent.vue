@@ -1,9 +1,7 @@
 <template>
   <v-dialog v-model="viewModel.isDialogShown" max-width="600">
     <template v-slot:activator="{ on }">
-      <v-btn icon v-on="on">
-        <v-icon>mdi-share</v-icon>
-      </v-btn>
+      <v-btn class="ma-2" v-on="on" depressed block color="primary">Share</v-btn>
     </template>
 
     <v-card>
@@ -12,17 +10,18 @@
       </v-card-title>
       <v-card-text>
         <v-row>
-          <v-col>
+          <v-col cols="8">
             <v-autocomplete
-                v-model="selectedUsers"
+                v-model="viewModel.selectedUsers"
                 :items="viewModel.users"
                 :search-input.sync="searchQuery"
                 :loading="viewModel.areUsersLoading"
-                chips
-                return-object
-                multiple
                 item-text="name"
                 item-value="id"
+                return-object
+                multiple
+                filled
+                chips
             >
               <!-- Selection -->
               <template v-slot:selection="{ item }">
@@ -51,25 +50,44 @@
               </template>
             </v-autocomplete>
           </v-col>
-          <v-col>
+          <v-col cols="4">
             <v-select
-                v-model="selectedAccessType"
-                :items="accessTypes"
-
-                item-text="Text"
-                item-value="Value"
-                persistent-hint
+                v-model="viewModel.selectedAccessType"
+                :items="viewModel.accessTypes"
+                item-text="text"
+                item-value="value"
                 return-object
                 single-line
+                filled
                 chips
             />
           </v-col>
         </v-row>
+        <v-row>
+          <v-col>
+            <v-list>
+              <v-list-item-group color="primary">
+                <v-list-item v-for="(item, i) in viewModel.userAccessTypes" :key="i">
+                  <v-list-item-avatar>
+                    <v-img :src="`data:image/jpeg;base64,${item.avatar}`"/>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="item.name"></v-list-item-title>
+                    <v-list-item-subtitle v-text="item.email"></v-list-item-subtitle>
+                  </v-list-item-content>
+                  <v-list-item-action>
+                    <span v-text="customizeAccessType(item.accessType)"/>
+                  </v-list-item-action>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-col>
+        </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="blue darken-1" text>Close</v-btn>
+        <v-btn color="blue darken-1" text v-on:click="onCloseClicked">Close</v-btn>
         <v-spacer/>
-        <v-btn color="blue darken-1" text v-on:click="onShareClicked">Upload</v-btn>
+        <v-btn color="blue darken-1" text v-on:click="onShareClicked">Share</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -78,30 +96,20 @@
 <script lang="ts">
     import {Component, Vue, Watch} from "vue-property-decorator";
     import {inject} from "inversify-props";
-    import GeoFileShareDialogViewModel
-        from "@/features/geofile/viewmodel/geofile-share/GeoFileShareDialogViewModel";
+    import GeoFileShareViewModel
+        from "@/features/geofile/viewmodel/geofile-share/GeoFileShareViewModel";
     import UserDto from "@/domain/dtos/user/UserDto";
     import lodash from "lodash";
     import {Observer} from "mobx-vue";
+    import {toReadable} from "@/domain/enums/AccessType";
 
     @Observer
     @Component({name: "geo-file-share-dialog"})
     export default class GeoFileShareDialogComponent extends Vue {
-        @inject("GeoFileShareDialogViewModel")
-        private viewModel!: GeoFileShareDialogViewModel;
+        @inject("GeoFileShareViewModel")
+        private viewModel!: GeoFileShareViewModel;
 
         private searchQuery: string | null = null;
-        private selectedUsers: Array<UserDto> = [];
-        private selectedAccessType: any;
-        private accessTypes = [
-            { Text: "Watch", Value: 1 },
-            { Text: "Comment", Value: 2 },
-            { Text: "Edit", Value: 3 }
-        ]
-
-        mounted(): void {
-            this.selectedAccessType = this.accessTypes[0];
-        }
 
         beforeDestroy(): void {
             // workaround, prevent second dialog showing when
@@ -110,18 +118,26 @@
         }
 
         @Watch("searchQuery")
-        private onSearchQueryChanged(searchQuery: any): void {
-            this.viewModel.loadUsersBySearchQuery(searchQuery);
+        private onSearchQueryChanged(): void {
+            this.viewModel.loadUsersBySearchQuery(this.searchQuery!);
         }
 
         private onRemoveSelectedUserClick(user: UserDto): void {
-            lodash.remove(this.selectedUsers, x => {
-                return x.id == user.id;
-            });
+            lodash.remove(this.viewModel.selectedUsers, x => x.id == user.id);
         }
 
-        private onShareClicked(): void {
-            console.log("TODO")
+        private onCloseClicked(): void {
+            this.viewModel.isDialogShown = false;
+        }
+
+        private async onShareClicked(): Promise<void> {
+            await this.viewModel.share()
+            await this.viewModel.loadUsersByGeoFile()
+            this.viewModel.selectedUsers = [];
+        }
+
+        private customizeAccessType(accessType: number): string {
+            return toReadable(accessType);
         }
     }
 </script>

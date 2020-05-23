@@ -3,7 +3,7 @@
     <v-toolbar class="elevation-0">
       <geo-files-upload-dialog/>
       <v-spacer/>
-      <v-btn icon v-if="geoFileRow" v-on:click="onShowGeoFileClicked">
+      <v-btn icon v-if="geoFileRow" v-on:click="onOpenGeoFileClicked">
         <v-icon>mdi-map</v-icon>
       </v-btn>
       <v-btn icon>
@@ -11,7 +11,7 @@
       </v-btn>
       <v-btn
           icon
-          :color="isDetailsVisible ? 'blue' : 'inherit' "
+          :color="isDetailsVisible ? 'primary' : 'inherit' "
           v-on:click="isDetailsVisible = !isDetailsVisible"
       >
         <v-icon>mdi-information</v-icon>
@@ -64,8 +64,12 @@
         from "@/features/geofile/views/components/GeoFileUploadDialogComponent.vue";
     import DateUtils from "@/common/utils/DateUtils";
     import StringUtils from "@/common/utils/StringUtils";
-    import GeoFileDetailsViewModel from "@/features/geofile/viewmodel/geofile-details/GeoFileDetailsViewModel";
+    import GeoFileDetailsViewModel
+        from "@/features/geofile/viewmodel/geofile-details/GeoFileDetailsViewModel";
     import GeoFileViewModel from "@/features/geofile/viewmodel/geofile/GeoFileViewModel";
+    import {GeoFile} from "@/domain/models/GeoFile";
+    import GeoFileShareViewModel
+        from "@/features/geofile/viewmodel/geofile-share/GeoFileShareViewModel";
 
     @Observer
     @Component({
@@ -79,6 +83,8 @@
         private viewModel!: GeoFileViewModel;
         @inject("GeoFileDetailsViewModel")
         private geoFileDetailsViewModel!: GeoFileDetailsViewModel;
+        @inject("GeoFileShareViewModel")
+        private geoFileShareViewModel!: GeoFileShareViewModel;
 
         private isDetailsVisible = false;
         private headers = [
@@ -89,23 +95,28 @@
         ];
         private geoFileRow: Row | null = null;
 
+        // lifetime methods
         async mounted() {
             await this.viewModel.loadGeoFiles();
         }
 
+        // view events
         private onGeoFileClicked(geoFile: GeoFile, row: Row) {
             this.geoFileRow?.select(false);
             this.geoFileRow = row;
             this.geoFileRow.select(true);
 
-            this.geoFileDetailsViewModel.getGeoFileById(geoFile.id);
+            this.geoFileDetailsViewModel.geoFile = geoFile;
+            this.geoFileShareViewModel.geoFile = geoFile;
+            this.geoFileShareViewModel.loadUsersByGeoFile();
         }
 
-        private onShowGeoFileClicked() {
+        private onOpenGeoFileClicked() {
             const geoFileId = this.geoFileDetailsViewModel.geoFile?.id;
             this.$router.push(`/map/${geoFileId}`)
         }
 
+        // table column customizations
         private customizeModifiedColumn(modified: Date | null): string {
             if (modified == null) return "--";
             return DateUtils.toTimeFormatIfTodayOtherwiseDate(modified);

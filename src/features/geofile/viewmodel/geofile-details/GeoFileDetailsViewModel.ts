@@ -1,8 +1,9 @@
-import {action, computed, observable} from "mobx";
+import {computed, observable} from "mobx";
 import DateUtils from "@/common/utils/DateUtils";
 import StringUtils from "@/common/utils/StringUtils";
-import GeoFilesStore from "@/features/geofile/stores/GeoFilesStore";
+import GeoFilesStore from "@/domain/stores/geofile/GeoFilesStore";
 import {inject} from "inversify-props";
+import {GeoFile} from "@/domain/models/GeoFile";
 
 export default class GeoFileDetailsViewModel {
     @inject("GeoFilesStore")
@@ -41,10 +42,5 @@ export default class GeoFileDetailsViewModel {
     public get opened(): string | null {
         if (!this.geoFile?.opened) return null;
         return DateUtils.toTimeFormatIfTodayOtherwiseDate(this.geoFile?.opened!);
-    }
-
-    @action
-    public getGeoFileById(geoFileId: number): void {
-        this.geoFile = this.store.getGeoFileById(geoFileId);
     }
 }

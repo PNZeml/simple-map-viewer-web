@@ -17,12 +17,12 @@ export default class AuthViewModelImpl implements AuthViewModel {
     }
 
     @action
-    public async requestSignUp(signUp: SignUpDto): Promise<void> {
+    public async requestSignUp(signUp: SignUpRequestDto): Promise<void> {
         await this.authService.signUp(signUp);
     }
 
     @action
-    public async requestSignIn(signIn: SignInDto): Promise<void> {
+    public async requestSignIn(signIn: SignInRequestDto): Promise<void> {
         this.user = await this.authService.signIn(signIn);
         localStorage.setItem("user", JSON.stringify(this.user));
     }

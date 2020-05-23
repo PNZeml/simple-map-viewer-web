@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="viewModel.isDialogShown" max-width="500">
+  <v-dialog v-model="viewModel.isDialogShown" max-width="600">
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on">
         <v-icon>mdi-file</v-icon>
@@ -14,7 +14,7 @@
         <v-container>
           <v-row>
             <v-col cols="12">
-              <v-card color="#385F73" dark>
+              <v-card color="primary" dark>
                 <v-card-title primary-title class="justify-center">
                   <div>Drop file to upload here</div>
                 </v-card-title>
@@ -47,14 +47,18 @@
     import {Observer} from "mobx-vue";
     import GeoFilesUploadDialogViewModel
         from "@/features/geofile/viewmodel/geofile-upload/GeoFilesUploadDialogViewModel";
+    import GeoFileViewModel from "@/features/geofile/viewmodel/geofile/GeoFileViewModel";
 
     @Observer
     @Component({name: "geo-files-upload-dialog"})
     export default class GeoFilesUploadDialogComponent extends Vue {
         @inject("GeoFilesUploadDialogViewModel")
         private viewModel!: GeoFilesUploadDialogViewModel;
+        @inject("GeoFileViewModel")
+        private bar!: GeoFileViewModel;
 
         private geoFiles: File[] = [];
+        private Webapi: any;
 
         private onGeoFilePicked(): void {
             console.log("TODO");
@@ -67,7 +71,9 @@
         private async onUploadClicked(): Promise<void> {
             const formData = new FormData();
             formData.append("file", this.geoFiles[0]);
-            //await Webapi.Create("files", formData);
+            //await this.Webapi.Create("files", formData);
+            await this.viewModel.fake();
+            await this.bar.loadGeoFiles();
         }
     }
 </script>

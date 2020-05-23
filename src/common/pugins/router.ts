@@ -3,7 +3,7 @@ import Vue from "vue";
 import VueRouter, {RouteConfig} from "vue-router";
 import MapRouteConfig from "@/features/map/MapRouterConfing";
 import GeoFileRouterConfig from "@/features/geofile/GeoFileRouterConfig";
-import MainPageComponent from "@/presentation/views/main/MainView.vue";
+import MainPageComponent from "@/presentation/views/MainView.vue";
 
 Vue.use(VueRouter);
 

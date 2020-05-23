@@ -1,15 +1,12 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row style="text-align: center;">
       <v-col v-if="viewModel.geoFile">{{ viewModel.name }} FILE DETAILS</v-col>
       <v-col v-else>Select a file to see its details</v-col>
     </v-row>
     <v-tabs v-if="viewModel.geoFile" fixed-tabs>
       <v-tab>Properties</v-tab>
       <v-tab-item>
-        <v-row>
-          <geo-file-share-dialog/>
-        </v-row>
         <v-row>
           <v-col>Size</v-col>
           <v-col>{{ viewModel.size }}</v-col>
@@ -29,6 +26,9 @@
         <v-row v-if="viewModel.opened">
           <v-col>Opened</v-col>
           <v-col>{{viewModel.opened}}</v-col>
+        </v-row>
+        <v-row>
+          <v-col><geo-file-share-dialog/></v-col>
         </v-row>
       </v-tab-item>
 
