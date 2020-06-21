@@ -1,5 +1,5 @@
 import WebApiService from "@/data/webapi/WebApiService"
-import {AuthWebApiService} from "@/data/webapi/services/auth/AuthWebApiService";
+import {AuthWebApiService} from "@/data/webapi/auth/AuthWebApiService";
 
 export default class AuthWebApiServiceImpl extends WebApiService implements AuthWebApiService {
     public async signIn(request: SignInRequestDto): Promise<User> {

@@ -9,14 +9,4 @@ export default class UserWebApiService extends WebApiService {
             await this.retrieve<Array<UserDto>>("users", {params: request});
         return response.data;
     }
-
-    public async getAllByGeoFile(
-        userId: number,
-        geoFileId: number
-    ): Promise<Array<UserAccessTypeDto>> {
-        const response = await this.retrieve<Array<UserAccessTypeDto>>(
-            `users/${userId}/geofiles/${geoFileId}/share`
-        );
-        return response.data;
-    }
 }

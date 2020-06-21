@@ -1,10 +1,10 @@
 import {container} from "inversify-props";
-import {AuthWebApiService} from "@/data/webapi/services/auth/AuthWebApiService";
-import AuthWebApiServiceImpl from "@/data/webapi/services/auth/AuthWebApiServiceImpl";
-import {GeoFilesWebApiService} from "@/data/webapi/services/geofile/GeoFilesWebApiService";
+import {AuthWebApiService} from "@/data/webapi/auth/AuthWebApiService";
+import AuthWebApiServiceImpl from "@/data/webapi/auth/AuthWebApiServiceImpl";
+import {GeoFilesWebApiService} from "@/data/webapi/geofile/GeoFilesWebApiService";
 import GeoFilesWebApiServiceImpl
-    from "@/data/webapi/services/geofile/GeoFilesWebApiServiceImpl";
-import UserWebApiService from "@/data/webapi/services/user/UserWebApiService";
+    from "@/data/webapi/geofile/GeoFilesWebApiServiceImpl";
+import UserWebApiService from "@/data/webapi/user/UserWebApiService";
 
 function load(): void {
     container.addTransient<AuthWebApiService>(

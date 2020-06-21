@@ -1,11 +1,20 @@
-import {HubConnectionBuilder, LogLevel, HubConnection} from "@microsoft/signalr";
+import {HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
+import LocalStorageUtils from "@/common/utils/LocalStorageUtils";
 
 class SignalRService {
     public readonly hubConnection: HubConnection;
 
     constructor() {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl("http://192.168.0.102:5001/hubs/v1/map")
+            .withUrl(
+                "http://192.168.0.104:5001/hubs/v1/map",
+                {
+                    accessTokenFactory: () => {
+                        return LocalStorageUtils.getToken();
+                    }
+                }
+            )
+            .withAutomaticReconnect()
             .configureLogging(LogLevel.Debug)
             .build();
     }

@@ -4,6 +4,7 @@ import StringUtils from "@/common/utils/StringUtils";
 import GeoFilesStore from "@/domain/stores/geofile/GeoFilesStore";
 import {inject} from "inversify-props";
 import {GeoFile} from "@/domain/models/GeoFile";
+import GeoFileActivityRecord from "@/domain/models/GeoFileActivityRecord";
 
 export default class GeoFileDetailsViewModel {
     @inject("GeoFilesStore")
@@ -11,6 +12,11 @@ export default class GeoFileDetailsViewModel {
 
     @observable
     public geoFile: GeoFile | null = null;
+
+    @computed
+    public get geoFileActivityRecords(): Array<GeoFileActivityRecord> | undefined {
+        return this.geoFile?.geoFileActivityRecords;
+    }
 
     @computed
     public get name(): string {
@@ -22,7 +28,6 @@ export default class GeoFileDetailsViewModel {
     @computed
     public get size(): string {
         if (!this.geoFile) throw new Error("Argument is null");
-
         const bytes = this.geoFile?.size;
         return StringUtils.toSize(bytes);
     }
@@ -30,6 +35,11 @@ export default class GeoFileDetailsViewModel {
     @computed
     public get created(): string {
         return DateUtils.toTimeFormatIfTodayOtherwiseDate(this.geoFile?.created!);
+    }
+
+    @computed
+    public get owner(): string {
+        return this.geoFile?.owner!;
     }
 
     @computed

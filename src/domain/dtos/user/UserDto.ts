@@ -1,13 +1,13 @@
-export default class UserDto {
-    public id: number;
-    public name: string;
-    public email: string;
-    public avatar: string;
-
-    public constructor(id: number, name: string, email: string, avatar: string) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.avatar = `data:image/jpeg;base64,${avatar}`;
-    }
+export default interface UserDto {
+    id: number;
+    // User's properties
+    name: string;
+    email: string;
+    avatar: string;
+    // Viewport properties
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    color: number; // Color in integer representation
 }

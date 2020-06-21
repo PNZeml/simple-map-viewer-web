@@ -7,6 +7,8 @@ import GeoFilesUploadDialogViewModel
     from "@/features/geofile/viewmodel/geofile-upload/GeoFilesUploadDialogViewModel";
 import GeoFileShareViewModel
     from "@/features/geofile/viewmodel/geofile-share/GeoFileShareViewModel";
+import MapViewModel from "@/features/map/viewmodel/MapViewModel";
+import GeoFileSharedViewModel from "@/features/geofile-shared/viewmodels/GeoFileSharedViewModel";
 
 function load(): void {
     // Stores
@@ -30,6 +32,11 @@ function load(): void {
     container.addSingleton<GeoFilesUploadDialogViewModel>(
         GeoFilesUploadDialogViewModel,
         "GeoFilesUploadDialogViewModel"
+    );
+    container.addSingleton<MapViewModel>(MapViewModel, "MapViewModel");
+    container.addSingleton<GeoFileSharedViewModel>(
+        GeoFileSharedViewModel,
+        "GeoFileSharedViewModel"
     );
 }
 

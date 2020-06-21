@@ -3,4 +3,5 @@ interface User {
     name: string;
     email: string;
     accessToken: string;
+    avatar: string;
 }

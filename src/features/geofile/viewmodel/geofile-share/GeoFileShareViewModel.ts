@@ -1,10 +1,10 @@
 import {action, computed, observable} from "mobx";
 import {inject} from "inversify-props";
-import UserWebApiService from "@/data/webapi/services/user/UserWebApiService";
+import UserWebApiService from "@/data/webapi/user/UserWebApiService";
 import UserDto from "@/domain/dtos/user/UserDto";
 import {LoadingState} from "@/domain/enums/LoadingState";
 import {AccessType, toReadable} from "@/domain/enums/AccessType";
-import {GeoFilesWebApiService} from "@/data/webapi/services/geofile/GeoFilesWebApiService";
+import {GeoFilesWebApiService} from "@/data/webapi/geofile/GeoFilesWebApiService";
 import LocalStorageUtils from "@/common/utils/LocalStorageUtils";
 import {GeoFile} from "@/domain/models/GeoFile";
 import UserAccessTypeDto from "@/domain/dtos/user/UserAccessTypeDto";
@@ -45,7 +45,7 @@ export default class GeoFileShareViewModel {
     public async loadUsersBySearchQuery(searchQuery: string) {
         try {
             this.usersLoadingState = LoadingState.Loading;
-            this.users = await this.userService.getAllBySearchQuery({searchQuery});
+            this.users = await this.userService.getAllBySearchQuery({searchString: searchQuery});
             this.usersLoadingState = LoadingState.Success;
         } catch (error) {
             this.usersLoadingState = LoadingState.Error;
@@ -54,16 +54,13 @@ export default class GeoFileShareViewModel {
 
     @action
     public async loadUsersByGeoFile() {
-        const user = LocalStorageUtils.GetUser();
-        this.userAccessTypes =
-            await this.userService.getAllByGeoFile(user?.id!, this.geoFile?.id!);
+        const foo = await this.geoFileService.getGeoFile(this.geoFile!.id);
+        this.userAccessTypes = foo.users;
     }
 
     @action
     public async share() {
-        const user = LocalStorageUtils.GetUser();
         await this.geoFileService.share(
-            user?.id!,
             this.geoFile?.id!,
             {
                 accessType: this.selectedAccessType.value,

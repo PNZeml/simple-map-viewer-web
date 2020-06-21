@@ -5,7 +5,7 @@ export class ProjectionString {
     public readonly projection: string;
 
     public static readonly EPGS4326: ProjectionString =
-        new ProjectionString("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
+            new ProjectionString("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
     public static readonly GOOGLE: ProjectionString = new ProjectionString(
         "EPSG:3857",
         "+proj=merc " +
@@ -20,7 +20,7 @@ export class ProjectionString {
         this.projection = protection;
     }
 
-    public Register = (): void => proj4.defs(this.name, this.projection);
+    public Register = () => proj4.defs(this.name);
 }
 
 export default class ProjectionUtils {

@@ -3,7 +3,8 @@ import {GeoFile} from "@/domain/models/GeoFile";
 import {ShareOptionsDto} from "@/domain/dtos/geofile/ShareOptionsDto";
 
 export interface GeoFilesWebApiService extends WebApiService {
-    getAll(userId: number): Promise<Array<GeoFile>>
-    share(userId: number, geoFileId: number, shareDto: ShareOptionsDto): Promise<void>
+    getGeoFile(geoFileId: number): Promise<GeoFile>
+    getAllGeoFiles(shared: boolean): Promise<Array<GeoFile>>
+    share(geoFileId: number, shareDto: ShareOptionsDto): Promise<void>
     fake(): Promise<void>
 }

@@ -1,7 +1,7 @@
 import {action, observable} from "mobx";
 import {inject} from "inversify-props";
-import UserWebApiService from "@/data/webapi/services/user/UserWebApiService";
-import {GeoFilesWebApiService} from "@/data/webapi/services/geofile/GeoFilesWebApiService";
+import UserWebApiService from "@/data/webapi/user/UserWebApiService";
+import {GeoFilesWebApiService} from "@/data/webapi/geofile/GeoFilesWebApiService";
 
 export default class GeoFilesUploadDialogViewModel {
     @inject("UserWebApiService")

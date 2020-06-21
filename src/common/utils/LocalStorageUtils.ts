@@ -1,5 +1,5 @@
 export default class LocalStorageUtils {
-    public static GetUser(): User | null {
+    public static getUser(): User | null {
         let user: User | null = null;
         try {
             const userJson = localStorage.getItem("user");
@@ -8,5 +8,9 @@ export default class LocalStorageUtils {
             console.log("No saved user")
         }
         return user;
+    }
+
+    public static getToken(): string {
+        return LocalStorageUtils.getUser()?.accessToken ?? "";
     }
 }

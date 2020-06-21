@@ -40,7 +40,11 @@
               <!-- Buttons -->
               <v-card-actions>
                 <v-spacer/>
+                <v-btn text color="primary">Forgot password?</v-btn>
+              </v-card-actions>
+              <v-card-actions>
                 <v-btn @click="OnSignInClicked" color="primary">Sign In</v-btn>
+                <v-spacer/>
                 <v-btn color="secondary" to="/signup">Sign Up</v-btn>
               </v-card-actions>
             </v-card>

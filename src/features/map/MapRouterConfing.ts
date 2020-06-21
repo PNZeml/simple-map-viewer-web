@@ -3,6 +3,10 @@ import {RouteConfig} from "vue-router";
 
 const MapRouteConfig: Array<RouteConfig> = [
     {
+        path: "/",
+        redirect: "/map"
+    },
+    {
         path: "/map",
         component: MapView,
     },

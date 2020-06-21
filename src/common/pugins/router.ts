@@ -4,6 +4,7 @@ import VueRouter, {RouteConfig} from "vue-router";
 import MapRouteConfig from "@/features/map/MapRouterConfing";
 import GeoFileRouterConfig from "@/features/geofile/GeoFileRouterConfig";
 import MainPageComponent from "@/presentation/views/MainView.vue";
+import GeoFileSharedRouteConfig from "@/features/geofile-shared/GeoFileSharedRouterConfig";
 
 Vue.use(VueRouter);
 
@@ -13,6 +14,7 @@ const routes: Array<RouteConfig> = [
         component: MainPageComponent,
         children: [
             ...GeoFileRouterConfig,
+            ...GeoFileSharedRouteConfig,
             ...MapRouteConfig,
         ]
     },

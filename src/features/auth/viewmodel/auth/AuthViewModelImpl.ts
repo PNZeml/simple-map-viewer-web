@@ -1,4 +1,4 @@
-import {AuthWebApiService} from "@/data/webapi/services/auth/AuthWebApiService";
+import {AuthWebApiService} from "@/data/webapi/auth/AuthWebApiService";
 import {inject} from "inversify-props";
 import LocalStorageUtils from "@/common/utils/LocalStorageUtils";
 import {AuthViewModel} from "@/features/auth/viewmodel/auth/AuthViewModel";
@@ -9,7 +9,7 @@ export default class AuthViewModelImpl implements AuthViewModel {
     private authService!: AuthWebApiService;
 
     @observable
-    public user: User | null = LocalStorageUtils.GetUser();
+    public user: User | null = LocalStorageUtils.getUser();
 
     @computed
     public get token(): string | null {
